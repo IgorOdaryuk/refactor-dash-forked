@@ -1,0 +1,39 @@
+name: LSA Scraper
+
+on:
+  schedule:
+    - cron: '0 10 1 * *'   # 1-го числа в 10:00 UTC
+    - cron: '0 10 15 * *'  # 15-го числа в 10:00 UTC
+  workflow_dispatch:        # ручной запуск
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install playwright
+          playwright install chromium
+
+      - name: Update cookies from secret
+        run: |
+          echo '${{ secrets.GOOGLE_COOKIES }}' > /tmp/cookies.json
+
+      - name: Run scraper
+        run: python scraper.py
+        env:
+          COOKIES_FILE: /tmp/cookies.json
+
+      - name: Push data.json
+        run: |
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          git add data.json
+          git commit -m "update data $(date +%Y-%m-%d)" || echo "No changes"
+          git push
