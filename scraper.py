@@ -46,7 +46,7 @@ END_DATE = today - timedelta(days=1)
 BL = "boq_ghsuiserver_20260417.06_p0"
 
 # Путь к репо на десктопе
-REPO_PATH = "/Users/igorodaryuk/Desktop/refactor-dash-forked"
+REPO_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
 def build_freq(cid, bid, y, m, d):
@@ -163,7 +163,7 @@ def git_push(output_path):
 async def main():
     async with async_playwright() as p:
         browser = await p.chromium.launch(
-            headless=False,
+            headless=True,
             args=["--disable-blink-features=AutomationControlled"]
         )
         context = await browser.new_context(
