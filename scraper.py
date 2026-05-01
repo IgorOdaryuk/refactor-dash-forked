@@ -29,10 +29,17 @@ BL = "boq_ghsuiserver_20260417.06_p0"
 REPO_PATH = os.path.dirname(os.path.abspath(__file__))
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-    "Content-Type": "application/x-www-form-urlencoded",
+    "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36",
+    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
     "Origin": "https://ads.google.com",
-    "Referer": "https://ads.google.com/localservices/reports",
+    "Referer": "https://ads.google.com/",
+    "x-browser-channel": "stable",
+    "x-browser-year": "2026",
+    "x-browser-validation": "yC9k8ytLqochQmibi5tUgyQdac8=",
+    "x-client-data": "CKmdygEIk6HLAQiGoM0BCPu4zwEIy7nPAQjiwM8BCIDCzwEYvanKAQ==",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
 }
 
 def get_at_fsid(cid, bid):
