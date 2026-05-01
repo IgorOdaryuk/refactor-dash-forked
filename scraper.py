@@ -85,6 +85,9 @@ def fetch_day(cid, bid, day, at, fsid):
         cookies=COOKIES, headers=HEADERS,
     )
     leads, spend = parse_response(r.text)
+if leads == 0:
+    print(f"  RAW: {r.text[:300]}")
+    break
     cpl = round(spend / leads) if leads > 0 else 0
     return {"date": day.strftime("%Y-%m-%d"), "leads": leads, "spend": spend, "cpl": cpl}
 
