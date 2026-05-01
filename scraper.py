@@ -40,8 +40,8 @@ ACCOUNTS = [
 
 # Даты: с 1-го числа текущего месяца по вчера
 today = date.today()
-START_DATE = date(today.year, today.month, 1)
-END_DATE = today - timedelta(days=1)
+START_DATE = date(2026, 4, 1)
+END_DATE = date(2026, 4, 30)
 
 BL = "boq_ghsuiserver_20260417.06_p0"
 
