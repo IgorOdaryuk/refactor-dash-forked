@@ -2,9 +2,9 @@ name: LSA Scraper
 
 on:
   schedule:
-    - cron: '0 10 1 * *'   # 1-го числа в 10:00 UTC
-    - cron: '0 10 15 * *'  # 15-го числа в 10:00 UTC
-  workflow_dispatch:        # ручной запуск
+    - cron: '0 10 1 * *'
+    - cron: '0 10 15 * *'
+  workflow_dispatch:
 
 jobs:
   scrape:
@@ -17,18 +17,12 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: |
-          pip install playwright
-          playwright install chromium
-
-      - name: Update cookies from secret
-        run: |
-          echo '${{ secrets.GOOGLE_COOKIES }}' > /tmp/cookies.json
+        run: pip install requests
 
       - name: Run scraper
         run: python scraper.py
         env:
-          COOKIES_FILE: /tmp/cookies.json
+          GOOGLE_COOKIES: ${{ secrets.GOOGLE_COOKIES }}
 
       - name: Push data.json
         run: |
