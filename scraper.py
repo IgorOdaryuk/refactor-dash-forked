@@ -5,7 +5,6 @@ import os
 import requests
 from datetime import date, timedelta
 
-# Берём куки из секрета GitHub
 COOKIES_RAW = os.environ.get("GOOGLE_COOKIES", "")
 COOKIES = {}
 for part in COOKIES_RAW.split(";"):
@@ -73,7 +72,7 @@ def parse_response(text):
             continue
     return leads, round(spend, 2)
 
-def fetch_day(cid, bid, day, at, fsid):
+def fetch_day(cid, bid, day, at, fsid, debug=False):
     y, m, d = day.year, day.month, day.day
     freq = build_freq(cid, bid, y, m, d)
     r = requests.post(
@@ -84,10 +83,9 @@ def fetch_day(cid, bid, day, at, fsid):
         data={"f.req": freq, "at": at},
         cookies=COOKIES, headers=HEADERS,
     )
+    if debug:
+        print(f"  RAW: {r.text[:500]}")
     leads, spend = parse_response(r.text)
-if leads == 0:
-    print(f"  RAW: {r.text[:300]}")
-    break
     cpl = round(spend / leads) if leads > 0 else 0
     return {"date": day.strftime("%Y-%m-%d"), "leads": leads, "spend": spend, "cpl": cpl}
 
@@ -102,8 +100,11 @@ for acc in ACCOUNTS:
         print("  ERROR: нет сессии — пропускаем")
         continue
     current = START_DATE
+    first = True
     while current <= END_DATE:
-        row = fetch_day(acc["cid"], acc["bid"], current, at, fsid)
+        debug = first and acc["name"] == "Atlanta"
+        row = fetch_day(acc["cid"], acc["bid"], current, at, fsid, debug=debug)
+        first = False
         row["location"] = acc["name"]
         if row["leads"] > 0:
             flat_data.append(row)
