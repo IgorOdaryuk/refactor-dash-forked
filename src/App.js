@@ -22,24 +22,26 @@ export default function App() {
     leadsFeb: summary.reduce((s, d) => s + d.leadsFeb, 0),
     leadsMar: summary.reduce((s, d) => s + d.leadsMar, 0),
     leadsApr: summary.reduce((s, d) => s + d.leadsApr, 0),
+    leadsJun: summary.reduce((s, d) => s + d.leadsJun, 0),
     spendJan: summary.reduce((s, d) => s + d.spendJan, 0),
     spendFeb: summary.reduce((s, d) => s + d.spendFeb, 0),
     spendMar: summary.reduce((s, d) => s + d.spendMar, 0),
     spendApr: summary.reduce((s, d) => s + d.spendApr, 0),
+    spendJun: summary.reduce((s, d) => s + d.spendJun, 0),
   };
 
+  const cplJun = totals.leadsJun
+    ? Math.round(totals.spendJun / totals.leadsJun)
+    : 0;
   const cplApr = totals.leadsApr
     ? Math.round(totals.spendApr / totals.leadsApr)
     : 0;
-  const cplMar = totals.leadsMar
-    ? Math.round(totals.spendMar / totals.leadsMar)
-    : 0;
-  const cplAprColor =
-    cplApr <= 45 ? "#34d399" : cplApr <= 55 ? "#f59e0b" : "#f87171";
+  const cplJunColor =
+    cplJun <= 45 ? "#34d399" : cplJun <= 55 ? "#f59e0b" : "#f87171";
   const totalLeadsAll =
-    totals.leadsJan + totals.leadsFeb + totals.leadsMar + totals.leadsApr;
+    totals.leadsJan + totals.leadsFeb + totals.leadsMar + totals.leadsApr + totals.leadsJun;
   const totalSpendAll =
-    totals.spendJan + totals.spendFeb + totals.spendMar + totals.spendApr;
+    totals.spendJan + totals.spendFeb + totals.spendMar + totals.spendApr + totals.spendJun;
 
   const navItem = (id, label) => (
     <button
@@ -90,27 +92,27 @@ export default function App() {
           </h1>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
             <Stat
-              label="Leads Apr"
-              value={totals.leadsApr}
+              label="Leads Jun"
+              value={totals.leadsJun}
               color="#34d399"
-              sub={`${arrow(pct(totals.leadsMar, totals.leadsApr))} ${Math.abs(
-                pct(totals.leadsMar, totals.leadsApr)
-              )}% vs Mar`}
+              sub={`${arrow(pct(totals.leadsApr, totals.leadsJun))} ${Math.abs(
+                pct(totals.leadsApr, totals.leadsJun)
+              )}% vs Apr`}
             />
             <Stat
-              label="Spend Apr"
-              value={fmt(totals.spendApr)}
+              label="Spend Jun"
+              value={fmt(totals.spendJun)}
               color="#f87171"
-              sub={`vs Mar: ${fmt(totals.spendMar)}`}
+              sub={`vs Apr: ${fmt(totals.spendApr)}`}
             />
             <Stat
-              label="CPL Apr"
-              value={`$${cplApr}`}
-              color={cplAprColor}
-              sub={`vs Mar: $${cplMar}`}
+              label="CPL Jun"
+              value={`$${cplJun}`}
+              color={cplJunColor}
+              sub={`vs Apr: $${cplApr}`}
             />
             <Stat
-              label="Total Q1+Apr"
+              label="Total Q1+Apr+Jun"
               value={totalLeadsAll}
               color="#a78bfa"
               sub={`Spend: ${fmt(totalSpendAll)}`}
