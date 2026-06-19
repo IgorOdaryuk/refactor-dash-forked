@@ -1,5 +1,6 @@
-export { dailyData } from "./data/index";
+import { dailyData } from "./data/index";
 
+export { dailyData };
 export const ACCENT = [
   "#0ea5e9",
   "#10b981",
@@ -9,7 +10,6 @@ export const ACCENT = [
   "#f97316",
   "#06b6d4",
 ];
-
 export const ALL_LOCATIONS = [
   "Atlanta",
   "Tampa",
@@ -19,12 +19,9 @@ export const ALL_LOCATIONS = [
   "Jacksonville",
   "Philadelphia",
 ];
-
 export const DOW_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 export const MAX_DATE = "2026-06-16";
-
 export function calcSummary(loc, month) {
-  const { dailyData: data } = require("./data/index");
   const prefixes = {
     1: "2026-01",
     2: "2026-02",
@@ -34,21 +31,19 @@ export function calcSummary(loc, month) {
     6: "2026-06",
   };
   const prefix = prefixes[month] || "2026-06";
-  const rows = data.filter(
+  const rows = dailyData.filter(
     (d) => d.location === loc && d.date.startsWith(prefix)
   );
   const leads = rows.reduce((sum, row) => sum + row.leads, 0);
   const spend = rows.reduce((sum, row) => sum + row.spend, 0);
   return { leads, spend, cpl: leads ? Math.round(spend / leads) : 0 };
 }
-
 export const summary = ALL_LOCATIONS.map((loc) => {
   const jan = calcSummary(loc, 1);
   const feb = calcSummary(loc, 2);
   const mar = calcSummary(loc, 3);
   const apr = calcSummary(loc, 4);
   const jun = calcSummary(loc, 6);
-
   return {
     location: loc,
     leadsJan: jan.leads,
@@ -68,10 +63,8 @@ export const summary = ALL_LOCATIONS.map((loc) => {
     cplJun: jun.cpl,
   };
 });
-
 export function buildWeeklyData(locs, from, to) {
-  const { dailyData: data } = require("./data/index");
-  const filtered = data.filter(
+  const filtered = dailyData.filter(
     (d) => locs.includes(d.location) && d.date >= from && d.date <= to
   );
   const weeks = {};
