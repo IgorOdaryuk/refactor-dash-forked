@@ -20,7 +20,7 @@ export const ALL_LOCATIONS = [
   "Philadelphia",
 ];
 export const DOW_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-export const MAX_DATE = "2026-06-16";
+export const MAX_DATE = "2026-06-29";
 export function calcSummary(loc, month) {
   const prefixes = {
     1: "2026-01",
