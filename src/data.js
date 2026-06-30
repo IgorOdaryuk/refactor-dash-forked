@@ -20,7 +20,12 @@ export const ALL_LOCATIONS = [
   "Philadelphia",
 ];
 export const DOW_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-export const MAX_DATE = "2026-06-29";
+// Авто: последняя дата, по которой есть данные. Бампать руками НЕ нужно —
+// коллектор добавляет дни в src/data/*.js, и MAX_DATE подтягивается сам.
+export const MAX_DATE = dailyData.reduce(
+  (max, d) => (d.date > max ? d.date : max),
+  "2026-01-01"
+);
 export function calcSummary(loc, month) {
   const prefixes = {
     1: "2026-01",
